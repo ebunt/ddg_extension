@@ -1,0 +1,2 @@
+"""DuckDuckGo MCP extension package."""
+

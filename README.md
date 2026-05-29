@@ -1,0 +1,125 @@
+# DuckDuckGo MCP Extension for Goose
+
+DuckDuckGo search tools exposed as a Model Context Protocol server for Goose.
+
+## Requirements
+
+- Python 3.14+
+- uv
+
+## Setup
+
+```bash
+uv sync
+```
+
+## Run
+
+```bash
+uv run ddg-mcp-server
+```
+
+The server communicates over stdio and waits for MCP JSON-RPC input.
+
+## Goose Configuration
+
+Replace `/path/to/ddg_extension` with the absolute path to this project.
+
+```json
+{
+  "mcpServers": {
+    "ddg_search": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/path/to/ddg_extension",
+        "run",
+        "ddg-mcp-server"
+      ]
+    }
+  }
+}
+```
+
+## Tools
+
+All search tools return structured dictionaries with `ok`, `kind`, `keywords`, and either `results` or `error`. `max_results` must be between `1` and `25`.
+
+### `ddg-text-search`
+
+Search web pages.
+
+Arguments:
+- `keywords`: search query
+- `region`: default `wt-wt`
+- `safesearch`: `on`, `moderate`, or `off`
+- `timelimit`: `d`, `w`, `m`, or `y`
+- `max_results`: default `10`
+
+### `ddg-image-search`
+
+Search images.
+
+Arguments:
+- `keywords`: search query
+- `region`: default `wt-wt`
+- `safesearch`: `on`, `moderate`, or `off`
+- `timelimit`: `d`, `w`, `m`, or `y`
+- `size`: `Small`, `Medium`, `Large`, or `Wallpaper`
+- `color`: image color filter
+- `type_image`: `photo`, `clipart`, `gif`, `transparent`, or `line`
+- `layout`: `Square`, `Tall`, or `Wide`
+- `license_image`: license filter
+- `max_results`: default `10`
+
+### `ddg-news-search`
+
+Search news articles.
+
+Arguments:
+- `keywords`: search query
+- `region`: default `wt-wt`
+- `safesearch`: `on`, `moderate`, or `off`
+- `timelimit`: `d`, `w`, `m`, or `y`
+- `max_results`: default `10`
+
+### `ddg-video-search`
+
+Search videos.
+
+Arguments:
+- `keywords`: search query
+- `region`: default `wt-wt`
+- `safesearch`: `on`, `moderate`, or `off`
+- `timelimit`: `d`, `w`, `m`, or `y`
+- `resolution`: `high` or `standard`
+- `duration`: `short`, `medium`, or `long`
+- `license_videos`: `creativeCommon` or `youtube`
+- `max_results`: default `10`
+
+### `ddg-ai-chat`
+
+Send a prompt to DuckDuckGo AI chat when the installed `ddgs` client supports chat.
+
+Arguments:
+- `keywords`: prompt
+- `model`: default `gpt-4o-mini`
+
+## Prompts
+
+### `search-results-summary`
+
+Fetches text search results and returns a prompt asking an LLM to summarize them.
+
+Arguments:
+- `query`: search query
+- `style`: `brief` or `detailed`
+
+## Development
+
+```bash
+uv sync
+uv run pytest
+uv run ruff check .
+uv run ty check
+```
