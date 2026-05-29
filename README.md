@@ -41,20 +41,27 @@ make install
 
 Replace `/path/to/ddg_extension` with the absolute path to this project.
 
-```json
-{
-  "mcpServers": {
-    "ddg_search": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/path/to/ddg_extension",
-        "run",
-        "ddg-mcp-server"
-      ]
-    }
-  }
-}
+Add to `$HOME/.config/goose/config.yaml`
+
+```yaml
+extensions:
+  websearch:
+    enabled: true
+    type: stdio
+    name: Web Search
+    description: DuckDuckGo Web Search
+    cmd: uv
+    args:
+    - run
+    - --directory
+    - /path/to/ddg_extension
+    - src/ddg_extension/mcp_server.py
+    envs: {}
+    env_keys: []
+    timeout: 300
+    bundled: null
+    available_tools: []
+
 ```
 
 ## Tools
