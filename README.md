@@ -144,6 +144,9 @@ make check
 
 Useful targets:
 - `make format`: format Python files with Ruff
+- `make version-from-tag`: set `pyproject.toml` version from the latest `v*` tag
+- `make check-version`: verify `pyproject.toml` version matches the latest `v*` tag
+- `make install-hooks`: install a local pre-commit hook that runs `make check-version`
 - `make clean`: remove local caches and build artifacts
 - `make help`: list available targets
 
@@ -163,3 +166,15 @@ git push origin v0.1.0
 ```
 
 The `Release` workflow creates the GitHub Release and uploads files from `dist/`.
+
+To sync `pyproject.toml` from the latest existing tag:
+
+```bash
+make version-from-tag
+```
+
+To install a local hook that blocks commits when `pyproject.toml` is out of sync with the latest `v*` tag:
+
+```bash
+make install-hooks
+```
