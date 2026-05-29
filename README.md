@@ -10,16 +10,32 @@ DuckDuckGo search tools exposed as a Model Context Protocol server for Goose.
 ## Setup
 
 ```bash
-uv sync
+make sync
 ```
 
 ## Run
 
 ```bash
-uv run ddg-mcp-server
+make run
 ```
 
 The server communicates over stdio and waits for MCP JSON-RPC input.
+
+## MCP Inspector
+
+Use the MCP Inspector for local manual testing:
+
+```bash
+make inspector
+```
+
+## Install In Claude Desktop
+
+Install the server into Claude Desktop with the MCP CLI:
+
+```bash
+make install
+```
 
 ## Goose Configuration
 
@@ -118,8 +134,32 @@ Arguments:
 ## Development
 
 ```bash
-uv sync
-uv run pytest
-uv run ruff check .
-uv run ty check
+make sync
+make test
+make lint
+make typecheck
+make build
+make check
 ```
+
+Useful targets:
+- `make format`: format Python files with Ruff
+- `make clean`: remove local caches and build artifacts
+- `make help`: list available targets
+
+## GitHub Actions
+
+- `Checks` runs on pull requests, pushes to `main`, and manual dispatch.
+- `Checks` runs linting, type checking, tests, and package build.
+- `Release` runs on tags matching `v*` and attaches the built wheel and source distribution to a GitHub Release.
+
+## Release
+
+Update `version` in `pyproject.toml`, commit the change, then create and push a tag:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The `Release` workflow creates the GitHub Release and uploads files from `dist/`.

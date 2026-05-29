@@ -1,4 +1,4 @@
-.PHONY: help sync test lint format typecheck check run mcp-run install inspector inspect clean
+.PHONY: help sync test lint format typecheck build check run mcp-run install inspector inspect clean
 
 UV_CACHE_DIR ?= .uv-cache
 UV := env UV_CACHE_DIR=$(UV_CACHE_DIR) uv
@@ -11,7 +11,8 @@ help:
 	@printf "  %-10s %s\n" "lint" "Run ruff checks"
 	@printf "  %-10s %s\n" "format" "Format with ruff"
 	@printf "  %-10s %s\n" "typecheck" "Run ty"
-	@printf "  %-10s %s\n" "check" "Run lint, typecheck, and tests"
+	@printf "  %-10s %s\n" "build" "Build source and wheel distributions"
+	@printf "  %-10s %s\n" "check" "Run lint, typecheck, tests, and build"
 	@printf "  %-10s %s\n" "run" "Run the MCP server with mcp run"
 	@printf "  %-10s %s\n" "mcp-run" "Alias for run"
 	@printf "  %-10s %s\n" "install" "Install the MCP server in Claude Desktop"
@@ -33,7 +34,10 @@ format:
 typecheck:
 	$(UV) run ty check
 
-check: lint typecheck test
+build:
+	$(UV) build
+
+check: lint typecheck test build
 
 run:
 	$(UV) run mcp run $(MCP_SERVER)
