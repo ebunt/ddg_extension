@@ -270,9 +270,7 @@ def test_ai_chat_returns_model_and_response() -> None:
         "model": "o3-mini",
         "response": "AI response",
     }
-    assert fake.calls == [
-        ("chat", {"query": "explain mcp", "model": "o3-mini"})
-    ]
+    assert fake.calls == [("chat", {"query": "explain mcp", "model": "o3-mini"})]
 
 
 def test_summary_prompt_uses_search_results() -> None:
@@ -313,3 +311,4 @@ def test_ddgs_error_returns_structured_failure() -> None:
         "error": "Error performing text search: network unavailable",
         "results": [],
     }
+
